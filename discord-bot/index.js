@@ -55,7 +55,7 @@ client.once('ready', async () => {
             [Lire l'article ici](<${article.articleUrl}>)
             *Publié le :* ${article.date}
             # ${article.type} #
-            ${article.description}
+            ${article.description}\n
             `;
             send_message("Valorant", formattedMessage);
         };
