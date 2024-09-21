@@ -1,0 +1,4 @@
+const token = ''; //The bot token
+const guildId = ""; //Server ID
+const forumChannelId = ""; //Channel forum ID
+module.exports = { token, guildId, forumChannelId };
