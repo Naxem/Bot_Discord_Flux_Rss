@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const { token, guildId, forumChannelId } = require('./token');
 const { rss_valorant } = require('./scraper/valorant/scraper_valorant');
-const { rss_once_human } = require('./rss_steam');
+const { rss_once_human, rss_payday3 } = require('./rss_steam');
 const cron = require('node-cron');
 const client = new Client({
     intents: [
@@ -72,6 +72,20 @@ client.once('ready', async () => {
             ${article.description}\n
             `;
             send_message("Once Human", formattedMessage);
+        };
+
+        console.log('start rss Payday 3');
+        result_rss = await rss_payday3("https://steamcommunity.com/games/1272080/rss");
+        for (let i = result_rss.length - 1; i >= 0; i--) {
+            const article = result_rss[i];
+            const formattedMessage = `
+            **${article.title}**\n
+            [Lire l'article ici](<${article.articleUrl}>)
+            *Publié le :* ${article.date}
+            # ${article.type} #
+            ${article.description}\n
+            `;
+            send_message("PayDay 3", formattedMessage);
         };
     }
 
