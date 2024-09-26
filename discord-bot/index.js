@@ -90,10 +90,12 @@ client.once('ready', async () => {
 
     await executeTask();
 
-    cron.schedule('0 14 * * 1-5', async () => {
-        console.log('Cron exécutée à 14h !');
-        await executeTask();
-    });   
+    //Planifie une tâche quotidienne à minuit
+    cron.schedule('0 10,14,18 * * 1-5', () => {
+        console.log('Cron exécutée à 10h, 14h ou 18h !');
+        executeTask();
+    });    
+
 });
 
 client.login(token);
