@@ -1,7 +1,8 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const { token, guildId, forumChannelId } = require('./token');
 const { rss_valorant } = require('./scraper/valorant/scraper_valorant');
-const { rss_once_human, rss_payday3 } = require('./rss_steam');
+const { rss_steam } = require('./rss/steam/rss_steam');
+const path = './rss/steam/liste_lien_jeux.json';
 const cron = require('node-cron');
 const client = new Client({
     intents: [
@@ -51,8 +52,8 @@ client.once('ready', async () => {
         for (let i = result_rss.length - 1; i >= 0; i--) {
             const article = result_rss[i];
             const formattedMessage = `
-            **${article.title}**\n
-            [Lire l'article ici](<${article.articleUrl}>)
+            **${article.title}**
+            [Lire l'article ici](${article.articleUrl})
             *Publié le :* ${article.date}
             # ${article.type} #
             ${article.description}\n
@@ -60,33 +61,25 @@ client.once('ready', async () => {
             send_message("Valorant", formattedMessage);
         };
 
-        console.log('start rss Once Human');
-        result_rss = await rss_once_human("https://steamcommunity.com/games/2139460/rss");
-        for (let i = result_rss.length - 1; i >= 0; i--) {
-            const article = result_rss[i];
-            const formattedMessage = `
-            **${article.title}**\n
-            [Lire l'article ici](<${article.articleUrl}>)
-            *Publié le :* ${article.date}
-            # ${article.type} #
-            ${article.description}\n
-            `;
-            send_message("Once Human", formattedMessage);
-        };
+        console.log('start rss Steam games');
+        const list_links_game = fs.readFileSync(path, 'utf-8');
+        list_link = JSON.parse(list_links_game)
 
-        console.log('start rss Payday 3');
-        result_rss = await rss_payday3("https://steamcommunity.com/games/1272080/rss");
-        for (let i = result_rss.length - 1; i >= 0; i--) {
-            const article = result_rss[i];
-            const formattedMessage = `
-            **${article.title}**\n
-            [Lire l'article ici](<${article.articleUrl}>)
-            *Publié le :* ${article.date}
-            # ${article.type} #
-            ${article.description}\n
-            `;
-            send_message("PayDay 3", formattedMessage);
-        };
+        list_link.forEach(element => {
+            result_rss = rss_steam(element[1], element[0]); //url, nom du jeu
+
+            for (let i = result_rss.length - 1; i >= 0; i--) {
+                const article = result_rss[i];
+                const formattedMessage = `
+                **${article.title}**
+                [Lire l'article ici](${article.articleUrl})
+                *Publié le :* ${article.date}
+                # ${article.type} #
+                ${article.description}\n
+                `;
+                send_message("Once Human", formattedMessage);
+            };
+        });
     }
 
     executeTask();
