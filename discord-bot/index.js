@@ -57,7 +57,7 @@ client.once('ready', async () => {
             ${article.description}\n
             -------------------------------------------------------
             `;
-            //await send_message("Valorant", formattedMessage);
+            await send_message("Valorant", formattedMessage);
         }
 
         console.log('start rss Steam games');
