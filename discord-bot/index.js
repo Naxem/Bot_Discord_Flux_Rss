@@ -63,10 +63,11 @@ client.once('ready', async () => {
 
         console.log('start rss Steam games');
         const list_links_game = fs.readFileSync(path, 'utf-8');
-        list_link = JSON.parse(list_links_game)
+        const list_link = JSON.parse(list_links_game)
 
-        list_link.forEach(element => {
-            result_rss = rss_steam(element[1], element[0]); //url, nom du jeu
+        for (const [game_name, rss_url] of Object.entries(list_link)) {
+            try {
+                const result_rss = rss_steam(rss_url, game_name);
 
             for (let i = result_rss.length - 1; i >= 0; i--) {
                 const article = result_rss[i];
@@ -77,9 +78,12 @@ client.once('ready', async () => {
                 # ${article.type} #
                 ${article.description}\n
                 `;
-                send_message("Once Human", formattedMessage);
+                send_message(game_name, formattedMessage);
             };
-        });
+            } catch (error) {
+                console.error(`Erreur lors de la récupération du flux RSS pour ${gameName}:`, error);
+            }
+        }
     }
 
     executeTask();
