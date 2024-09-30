@@ -13,39 +13,44 @@ const client = new Client({
     ]
 });
 
+//Obtenir la date et l'heure actuelles
+function date_actuelle() {
+    return new Date();
+}
+
 async function send_message(threadName, formattedMessage) {   
     const guild = await client.guilds.fetch(guildId);
     if (!guild) {
-        console.log('Serveur non trouvé');
+        console.log(date_actuelle() + ': Serveur non trouvé');
         return;
     }
 
     const forumChannel = guild.channels.cache.get(forumChannelId);
     if (!forumChannel) {
-        console.log('Forum non trouvé');
+        console.log(date_actuelle() + ': Forum non trouvé');
         return;
     }
 
     const thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
 
     if (!thread) {
-        console.log('Post '+ threadName +' non trouvé dans le forum');
+        console.log(date_actuelle() + ': Post '+ threadName +' non trouvé dans le forum');
         return;
     }
 
     try {
         await thread.send(formattedMessage);
-        console.log("Message envoyé");
+        console.log(date_actuelle() + ": Message envoyé pour " + threadName);
     } catch (error) {
-        console.error('Erreur lors de l\'envoi du message :', error);
+        console.error(date_actuelle() + ': Erreur lors de l\'envoi du message :', error);
     }
 }
 
 client.once('ready', async () => {
-    console.log('Le bot est prêt !');
+    console.log(date_actuelle() + ': Le bot est prêt !');
 
     const executeTask = async () => {
-        console.log('start rss Valorant');
+        console.log(date_actuelle() + ': Start rss Valorant');
         const result_rss_valorant = await rss_valorant();
         for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
             const article = result_rss_valorant[i];
@@ -60,7 +65,7 @@ client.once('ready', async () => {
             await send_message("Valorant", formattedMessage);
         }
 
-        console.log('start rss Steam games');
+        console.log(date_actuelle() + ': Start rss jeux Steam');
         const list_links_game = fs.readFileSync(path, 'utf-8');
         const list_link = JSON.parse(list_links_game);
 
@@ -80,10 +85,10 @@ client.once('ready', async () => {
                         await send_message(game_name, formattedMessage);
                     }
                 } else {
-                    console.log(`Aucun nouvel article pour ${game_name}`);
+                    console.log(date_actuelle() + `: Aucun nouvel article pour ${game_name}`);
                 }
             } catch (error) {
-                console.error(`Erreur lors de la récupération du flux RSS pour ${game_name}:`, error);
+                console.error(date_actuelle() + `: Erreur lors de la récupération du flux RSS pour ${game_name}:`, error);
             }
         }
     }
