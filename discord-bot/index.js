@@ -52,17 +52,21 @@ client.once('ready', async () => {
     const executeTask = async () => {
         console.log(date_actuelle() + ': Start rss Valorant');
         const result_rss_valorant = await rss_valorant();
-        for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
-            const article = result_rss_valorant[i];
-            const formattedMessage = `
-            **${article.title}**
-            [Lire l'article ici](<${article.articleUrl}>)
-            *Publié le :* ${article.date}
-            # ${article.type} #
-            ${article.description}\n
-            -------------------------------------------------------
-            `;
-            await send_message("Valorant", formattedMessage);
+        if (result_rss_valorant && result_rss_valorant.length > 0) {
+            for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
+                const article = result_rss_valorant[i];
+                const formattedMessage = `
+                **${article.title}**
+                [Lire l'article ici](<${article.articleUrl}>)
+                *Publié le :* ${article.date}
+                # ${article.type} #
+                ${article.description}\n
+                -------------------------------------------------------
+                `;
+                await send_message("Valorant", formattedMessage);
+            }
+        } else {
+            console.log(date_actuelle() + `: Aucun nouvel article pour Valorant`);
         }
 
         console.log(date_actuelle() + ': Start rss jeux Steam');
