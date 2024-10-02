@@ -29,9 +29,9 @@ function formatDate(datetime) {
 
 async function rss_valorant() {
     try {
-        const seenArticles = loadSeenArticles(); //Charger les articles vus
+        const seenArticles = await loadSeenArticles(); //Charger les articles vus
         const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
+        const $ = await cheerio.load(data);
         const articles = [];
 
         //Sélectionner tous les éléments <a> avec la classe spécifiée
@@ -61,7 +61,7 @@ async function rss_valorant() {
         });
 
         //Sauvegarder les articles vus dans le fichier
-        saveSeenArticles(seenArticles);
+        await saveSeenArticles(seenArticles);
         return articles;
     } catch (error) {
         console.error('Error fetching articles:', error);
