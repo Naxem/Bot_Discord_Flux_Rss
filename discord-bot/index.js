@@ -78,6 +78,7 @@ client.once('ready', async () => {
                 const result_rss_steam = await rss_steam(rss_url, game_name);
 
                 if (result_rss_steam && result_rss_steam.length > 0) {
+                    console.log(result_rss_steam)
                     for (let i = result_rss_steam.length - 1; i >= 0; i--) {
                         const article = result_rss_steam[i];
                         const formattedMessage = `
