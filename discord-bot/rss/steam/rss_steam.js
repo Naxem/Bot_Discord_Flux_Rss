@@ -19,26 +19,25 @@ function saveSeenArticles(seenArticles) {
   fs.writeFileSync(path, JSON.stringify(seenArticles, null, 2), 'utf-8');
 }
 
-// Fonction pour vérifier si un article est déjà vu
-function isArticleSeen(articleUrl, game, seenArticles) {
-  // Vérification que le jeu existe et que les articles sont bien enregistrés
+// Fonction pour vérifier si un article est déjà vu (basé sur le titre)
+function isArticleSeen(articleTitle, game, seenArticles) {
   if (!seenArticles[game]) {
     return false;
   }
 
-  // Suppression des espaces supplémentaires autour de l'URL à comparer
-  const cleanArticleUrl = articleUrl.trim();
+  const cleanArticleTitle = articleTitle.trim();
 
-  // Vérification si l'URL de l'article est présente dans la liste des articles vus pour le jeu
-  return seenArticles[game].some(seenUrl => seenUrl.trim() === cleanArticleUrl);
+  // Vérifier si un article avec le même titre a déjà été vu
+  return seenArticles[game].some(seenArticle => seenArticle.trim() === cleanArticleTitle);
 }
 
-// Fonction pour ajouter un article au jeu correspondant
-function addArticleToSeen(articleUrl, game, seenArticles) {
+// Fonction pour ajouter un article au jeu correspondant (basé sur le titre)
+function addArticleToSeen(articleTitle, game, seenArticles) {
   if (!seenArticles[game]) {
     seenArticles[game] = [];
   }
-  seenArticles[game].push(articleUrl);
+
+  seenArticles[game].push(articleTitle);
   saveSeenArticles(seenArticles);
 }
 
@@ -60,43 +59,34 @@ async function rss_steam(url, game) {
     const parser = new XMLParser();
     const rssData = parser.parse(response.data);
 
-    // Récupérer les items du flux
     const items = rssData.rss.channel.item;
     const feedItems = [];
 
     items.forEach(item => {
       const title = item.title;
       let description = item.description;
-  
-      // Supprimer toutes les balises HTML tout en conservant le texte
-      description = description.replace(/<[^>]*>/g, ''); // Supprime toutes les balises HTML
-  
-      // Remplacer les balises <br> par des sauts de ligne
-      description = description.replace(/<br\s*\/?>/gi, '\n');
-  
-      // Supprimer les espaces supplémentaires
-      description = description.replace(/\s+/g, ' ').trim();
-  
-      // Limiter la description à 50 caractères
+
+      // Nettoyage de la description
+      description = description.replace(/<[^>]*>/g, ''); // Supprime les balises HTML
+      description = description.replace(/<br\s*\/?>/gi, '\n'); // Remplace les <br> par des sauts de ligne
+      description = description.replace(/\s+/g, ' ').trim(); // Supprime les espaces inutiles
       if (description.length > 50) {
-          description = description.substring(0, 200) + "..."; // Ajouter "..." si tronqué
+        description = description.substring(0, 200) + "..."; // Tronque si nécessaire
       }
-  
-      const articleUrl = item.link;
+
       const date = item.pubDate;
-  
-      // Vérifier si l'article a déjà été vu
-      if (!isArticleSeen(articleUrl, game, seenArticles)) {
-          feedItems.push({
-              title,
-              description,
-              articleUrl,
-              date: formatDate(date) // Reformater la date
-          });
-          // Ajouter l'article au fichier JSON
-          addArticleToSeen(articleUrl, game, seenArticles);
+
+      // Vérifier si l'article a déjà été vu (titre uniquement)
+      if (!isArticleSeen(title, game, seenArticles)) {
+        feedItems.push({
+          title,
+          description,
+          date: formatDate(date) // Reformater la date
+        });
+        // Ajouter l'article au fichier JSON (titre uniquement)
+        addArticleToSeen(title, game, seenArticles);
       }
-  });  
+    });
 
     return feedItems;
   } catch (error) {

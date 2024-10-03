@@ -40,7 +40,26 @@ async function send_message(threadName, formattedMessage) {
         return;
     }
 
-    const thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
+    // Vérifie dans les threads actifs
+    let thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
+
+    // Si le thread n'est pas trouvé, on cherche dans les threads archivés
+    if (!thread) {
+        try {
+            // Récupère les threads archivés
+            const archivedThreads = await forumChannel.threads.fetchArchived({ fetchAll: true });
+            thread = archivedThreads.threads.find(thread => thread.name === threadName);
+
+            if (thread && thread.archived && !thread.locked) {
+                // Désarchiver le thread s'il est trouvé et pas verrouillé
+                await thread.setArchived(false);
+                console.log(date_actuelle() + ": Le thread " + threadName + " a été désarchivé.");
+            }
+        } catch (error) {
+            console.error(date_actuelle() + ': Erreur lors de la récupération des threads archivés :', error);
+            return;
+        }
+    }
 
     if (!thread) {
         console.log(date_actuelle() + ': Post '+ threadName +' non trouvé dans le forum');
@@ -48,6 +67,7 @@ async function send_message(threadName, formattedMessage) {
     }
 
     try {
+        // Envoie le message
         await thread.send(formattedMessage);
         console.log(date_actuelle() + ": Message envoyé pour " + threadName);
     } catch (error) {
@@ -87,7 +107,6 @@ client.once('ready', async () => {
                 const result_rss_steam = await rss_steam(rss_url, game_name);
 
                 if (result_rss_steam && result_rss_steam.length > 0) {
-                    //console.log(result_rss_steam)
                     for (let i = result_rss_steam.length - 1; i >= 0; i--) {
                         const article = result_rss_steam[i];
                         const formattedMessage = `
