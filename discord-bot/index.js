@@ -13,54 +13,92 @@ const client = new Client({
     ]
 });
 
+//Obtenir la date et l'heure actuelles
+function date_actuelle() {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0'); // Jour sur 2 chiffres
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois sur 2 chiffres
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0'); // Heures sur 2 chiffres
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Minutes sur 2 chiffres
+    const seconds = String(date.getSeconds()).padStart(2, '0'); // Secondes sur 2 chiffres
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+    return formattedDate;
+}
+
 async function send_message(threadName, formattedMessage) {   
     const guild = await client.guilds.fetch(guildId);
     if (!guild) {
-        console.log('Serveur non trouvé');
+        console.log(date_actuelle() + ': Serveur non trouvé');
         return;
     }
 
     const forumChannel = guild.channels.cache.get(forumChannelId);
     if (!forumChannel) {
-        console.log('Forum non trouvé');
+        console.log(date_actuelle() + ': Forum non trouvé');
         return;
     }
 
-    const thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
+    // Vérifie dans les threads actifs
+    let thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
+
+    // Si le thread n'est pas trouvé, on cherche dans les threads archivés
+    if (!thread) {
+        try {
+            // Récupère les threads archivés
+            const archivedThreads = await forumChannel.threads.fetchArchived({ fetchAll: true });
+            thread = archivedThreads.threads.find(thread => thread.name === threadName);
+
+            if (thread && thread.archived && !thread.locked) {
+                // Désarchiver le thread s'il est trouvé et pas verrouillé
+                await thread.setArchived(false);
+                console.log(date_actuelle() + ": Le thread " + threadName + " a été désarchivé.");
+            }
+        } catch (error) {
+            console.error(date_actuelle() + ': Erreur lors de la récupération des threads archivés :', error);
+            return;
+        }
+    }
 
     if (!thread) {
-        console.log('Post '+ threadName +' non trouvé dans le forum');
+        console.log(date_actuelle() + ': Post '+ threadName +' non trouvé dans le forum');
         return;
     }
 
     try {
+        // Envoie le message
         await thread.send(formattedMessage);
-        console.log("Message envoyé");
+        console.log(date_actuelle() + ": Message envoyé pour " + threadName);
     } catch (error) {
-        console.error('Erreur lors de l\'envoi du message :', error);
+        console.error(date_actuelle() + ': Erreur lors de l\'envoi du message :', error);
     }
 }
 
 client.once('ready', async () => {
-    console.log('Le bot est prêt !');
+    console.log(date_actuelle() + ': Le bot est prêt !');
 
     const executeTask = async () => {
-        console.log('start rss Valorant');
+        console.log(date_actuelle() + ': Start rss Valorant');
         const result_rss_valorant = await rss_valorant();
-        for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
-            const article = result_rss_valorant[i];
-            const formattedMessage = `
-            **${article.title}**
-            [Lire l'article ici](<${article.articleUrl}>)
-            *Publié le :* ${article.date}
-            # ${article.type} #
-            ${article.description}\n
-            -------------------------------------------------------
-            `;
-            await send_message("Valorant", formattedMessage);
+        if (result_rss_valorant && result_rss_valorant.length > 0) {
+            for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
+                const article = result_rss_valorant[i];
+                const formattedMessage = `
+                **${article.title}**
+                [Lire l'article ici](<${article.articleUrl}>)
+                *Publié le :* ${article.date}
+                # ${article.type} #
+                ${article.description}\n
+                -------------------------------------------------------
+                `;
+                await send_message("Valorant", formattedMessage);
+            }
+        } else {
+            console.log(date_actuelle() + `: Aucun nouvel article pour Valorant`);
         }
 
-        console.log('start rss Steam games');
+        console.log(date_actuelle() + ': Start rss jeux Steam');
         const list_links_game = fs.readFileSync(path, 'utf-8');
         const list_link = JSON.parse(list_links_game);
 
@@ -80,10 +118,10 @@ client.once('ready', async () => {
                         await send_message(game_name, formattedMessage);
                     }
                 } else {
-                    console.log(`Aucun nouvel article pour ${game_name}`);
+                    console.log(date_actuelle() + `: Aucun nouvel article pour ${game_name}`);
                 }
             } catch (error) {
-                console.error(`Erreur lors de la récupération du flux RSS pour ${game_name}:`, error);
+                console.error(date_actuelle() + `: Erreur lors de la récupération du flux RSS pour ${game_name}:`, error);
             }
         }
     }
