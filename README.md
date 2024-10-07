@@ -10,3 +10,5 @@ Pour lancer le bot sur ce serveur il faut:
 
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
+
+Version 1.0.0
