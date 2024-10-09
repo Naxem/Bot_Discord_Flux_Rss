@@ -11,4 +11,8 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version 1.0.0
+Version actuel: 1.0.1
+
+Patch notes:
+1.0.1
+Fix: erreur url des annonces dans les messages du flux steam

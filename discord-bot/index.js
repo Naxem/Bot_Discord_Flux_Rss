@@ -16,12 +16,12 @@ const client = new Client({
 //Obtenir la date et l'heure actuelles
 function date_actuelle() {
     const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0'); // Jour sur 2 chiffres
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois sur 2 chiffres
+    const day = String(date.getDate()).padStart(2, '0'); //Jour sur 2 chiffres
+    const month = String(date.getMonth() + 1).padStart(2, '0'); //Mois sur 2 chiffres
     const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0'); // Heures sur 2 chiffres
-    const minutes = String(date.getMinutes()).padStart(2, '0'); // Minutes sur 2 chiffres
-    const seconds = String(date.getSeconds()).padStart(2, '0'); // Secondes sur 2 chiffres
+    const hours = String(date.getHours()).padStart(2, '0'); //Heures sur 2 chiffres
+    const minutes = String(date.getMinutes()).padStart(2, '0'); //Minutes sur 2 chiffres
+    const seconds = String(date.getSeconds()).padStart(2, '0'); //Secondes sur 2 chiffres
     const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 
     return formattedDate;
@@ -40,18 +40,18 @@ async function send_message(threadName, formattedMessage) {
         return;
     }
 
-    // Vérifie dans les threads actifs
+    //Vérifie dans les threads actifs
     let thread = forumChannel.threads.cache.find(thread => thread.name === threadName);
 
-    // Si le thread n'est pas trouvé, on cherche dans les threads archivés
+    //Si le thread n'est pas trouvé, on cherche dans les threads archivés
     if (!thread) {
         try {
-            // Récupère les threads archivés
+            //Récupère les threads archivés
             const archivedThreads = await forumChannel.threads.fetchArchived({ fetchAll: true });
             thread = archivedThreads.threads.find(thread => thread.name === threadName);
 
             if (thread && thread.archived && !thread.locked) {
-                // Désarchiver le thread s'il est trouvé et pas verrouillé
+                //Désarchiver le thread s'il est trouvé et pas verrouillé
                 await thread.setArchived(false);
                 console.log(date_actuelle() + ": Le thread " + threadName + " a été désarchivé.");
             }
@@ -111,9 +111,10 @@ client.once('ready', async () => {
                         const article = result_rss_steam[i];
                         const formattedMessage = `
                         **${article.title}**
-                        [Lire l'article ici](${article.articleUrl})
+                        [Lire l'article ici](<${article.link}>)
                         *Publié le :* ${article.date}
                         ${article.description}\n
+                        -------------------------------------------------------
                         `;
                         await send_message(game_name, formattedMessage);
                     }
