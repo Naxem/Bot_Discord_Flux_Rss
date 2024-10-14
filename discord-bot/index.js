@@ -129,9 +129,9 @@ client.once('ready', async () => {
 
     await executeTask();
 
-    //Planifie une tâche quotidienne à minuit
-    cron.schedule('0 10,14,18 * * 1-5', () => {
-        console.log('Cron exécutée à 10h, 14h ou 18h !');
+    //Planifie une tâche quotidienne
+    cron.schedule('0 10,14,18 * * 1-5,18 * * 6,0', () => {
+        console.log('Cron exécutée à 10h, 14h ou 18h en semaine, et à 18h le week-end !');
         executeTask();
     });    
 
