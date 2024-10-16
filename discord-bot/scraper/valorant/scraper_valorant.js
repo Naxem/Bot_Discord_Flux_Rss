@@ -42,7 +42,7 @@ async function rss_valorant() {
 
             //Vérifier si l'article a déjà été vu
             if (seenArticles.has(articleUrl)) {
-                return;
+                return; // Ignorer les doublons
             }
             seenArticles.add(articleUrl); //Ajouter l'article à l'ensemble
 

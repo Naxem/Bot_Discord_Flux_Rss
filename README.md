@@ -16,3 +16,8 @@ Version actuel: 1.0.1
 Patch notes:
 1.0.1
 Fix: erreur url des annonces dans les messages du flux steam
+
+1.0.2
+Modification: cron ajouter pour le week-end à 18h
+Modification: augmentation du nombre de caractère dans la description (rss steam)
+Modification: ajout de la date et l'heure dans les logs
