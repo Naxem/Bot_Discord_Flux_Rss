@@ -70,10 +70,11 @@ async function rss_steam(url, game) {
       description = description.replace(/<[^>]*>/g, ''); //Supprime les balises HTML
       description = description.replace(/<br\s*\/?>/gi, '\n'); //Remplace les <br> par des sauts de ligne
       description = description.replace(/\s+/g, ' ').trim(); //Supprime les espaces inutiles
-      //Tronque la description si plus grande de 50 caractère
-      if (description.length > 50) {
-        description = description.substring(0, 200) + "..."; 
+      // Tronque la description si elle dépasse 400 caractères
+      if (description.length > 150) {
+        description = description.substring(0, 400) + "..."; 
       }
+
 
       const date = item.pubDate;
       const link = item.link;
