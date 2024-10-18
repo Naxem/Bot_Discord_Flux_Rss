@@ -2,20 +2,32 @@ const fs = require('fs');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const url = 'https://playvalorant.com/fr-fr/news/';
-const seenArticlesFile = './scraper/valorant/seenArticles.json';
+const path = './scraper/valorant/seenArticles.json';
 
 //Charger les articles déjà vus à partir du fichier
 function loadSeenArticles() {
-    if (fs.existsSync(seenArticlesFile)) {
-        const data = fs.readFileSync(seenArticlesFile);
-        return new Set(JSON.parse(data));
+    if (fs.existsSync(path)) {
+        const data = fs.readFileSync(path, 'utf-8');
+        return JSON.parse(data);
+    } else {
+        console.log("Erreur: fichier 'json' non trouvé.")
+        return {};
     }
-    return new Set();
 }
 
 //Sauvegarder les articles vus dans le fichier
 function saveSeenArticles(seenArticles) {
-    fs.writeFileSync(seenArticlesFile, JSON.stringify([...seenArticles]));
+    fs.writeFileSync(path, JSON.stringify(seenArticles, null, 2), 'utf-8');
+}
+
+//Fonction pour ajouter un article au jeu correspondant (basé sur le titre)
+function addArticleToSeen(articleTitle, game, seenArticles) {
+    if (!seenArticles[game]) {
+      seenArticles[game] = [];
+    }
+
+    seenArticles[game].push(articleTitle);
+    saveSeenArticles(seenArticles);
 }
 
 //Fonction pour formater la date en JJ/MM/YYYY
@@ -61,7 +73,7 @@ async function rss_valorant() {
         });
 
         //Sauvegarder les articles vus dans le fichier
-        await saveSeenArticles(seenArticles);
+        await addArticleToSeen(articleUrl, "valorant", seenArticles);
         return articles;
     } catch (error) {
         console.error('Error fetching articles:', error);

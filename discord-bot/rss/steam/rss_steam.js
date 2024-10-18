@@ -55,7 +55,11 @@ async function rss_steam(url, game) {
   const seenArticles = loadSeenArticles(); //Charger les articles vus
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      headers: {
+        'Accept-Language': 'fr'
+      }
+    });
     const parser = new XMLParser();
     const rssData = parser.parse(response.data);
 
