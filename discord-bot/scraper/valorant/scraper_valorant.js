@@ -2,7 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const url = 'https://playvalorant.com/fr-fr/news/';
-const path = '../liste_rss_scraper.json';
+const path = './scraper/liste_rss_scraper.json';
 
 //Charger les articles déjà vus à partir du fichier
 function loadSeenArticles() {
@@ -10,7 +10,7 @@ function loadSeenArticles() {
         const data = fs.readFileSync(path, 'utf-8');
         return JSON.parse(data);
     } else {
-        console.log("Erreur: fichier 'json' non trouvé.")
+        console.log("Erreur: liste_rss_scraper.json non trouvé.")
         return {};
     }
 }
@@ -20,13 +20,25 @@ function saveSeenArticles(seenArticles) {
     fs.writeFileSync(path, JSON.stringify(seenArticles, null, 2), 'utf-8');
 }
 
-//Fonction pour ajouter un article au jeu correspondant (basé sur le titre)
-function addArticleToSeen(articleTitle, game, seenArticles) {
+//Fonction pour vérifier si un article est déjà vu
+function isArticleSeen(articleLink, game, seenArticles) {
+    if (!seenArticles[game]) {
+      return false;
+    }
+  
+    const cleanArticleLink = articleLink.trim();
+  
+    //Vérifier si un article avec le même titre a déjà été vu
+    return seenArticles[game].some(seenArticle => seenArticle.trim() === cleanArticleLink);
+}
+
+//Fonction pour ajouter un article au jeu correspondant
+function addArticleToSeen(articleLink, game, seenArticles) {
     if (!seenArticles[game]) {
       seenArticles[game] = [];
     }
 
-    seenArticles[game].push(articleTitle);
+    seenArticles[game].push(articleLink);
     saveSeenArticles(seenArticles);
 }
 
@@ -43,7 +55,7 @@ async function rss_valorant() {
     try {
         const seenArticles = await loadSeenArticles(); //Charger les articles vus
         const { data } = await axios.get(url);
-        const $ = await cheerio.load(data);
+        const $ = cheerio.load(data);
         const articles = [];
 
         //Sélectionner tous les éléments <a> avec la classe spécifiée
@@ -52,28 +64,25 @@ async function rss_valorant() {
             const title = $(element).attr('aria-label');
             const articleUrl = new URL(href, url).href;
 
-            //Vérifier si l'article a déjà été vu
-            if (seenArticles.has(articleUrl)) {
-                return; // Ignorer les doublons
-            }
-            seenArticles.add(articleUrl); //Ajouter l'article à l'ensemble
-
             //Extraire les détails de l'article
             const date = formatDate($(element).find('time').attr('datetime')) || 'Date non trouvée';
             const type = $(element).find('[data-testid="card-category"]').text() || 'Type non trouvé';
             const description = $(element).find('[data-testid="card-description"]').text() || 'Description non trouvée';
 
-            articles.push({
-                title,
-                articleUrl,
-                date,
-                type,
-                description
-            });
+            //Vérifier si l'article a déjà été vu
+            if (!isArticleSeen(articleUrl, "valorant", seenArticles)) {
+                articles.push({
+                    title,
+                    articleUrl,
+                    date,
+                    type,
+                    description
+                });
+                //Sauvegarder les articles vus dans le fichier
+                addArticleToSeen(articleUrl, "valorant", seenArticles);
+            }
         });
-
-        //Sauvegarder les articles vus dans le fichier
-        await addArticleToSeen(articleUrl, "valorant", seenArticles);
+        
         return articles;
     } catch (error) {
         console.error('Error fetching articles:', error);

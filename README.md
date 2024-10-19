@@ -11,13 +11,20 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.0.1
+Version actuel: 1.1.0
 
 Patch notes:
-1.0.1
-Fix: erreur url des annonces dans les messages du flux steam
+1.1.0
+Ajout: 
+-Flux rss pour le jeu Rainbow six siège (r6)
 
-1.0.2
-Modification: cron ajouter pour le week-end à 18h
-Modification: augmentation du nombre de caractère dans la description (rss steam)
-Modification: ajout de la date et l'heure dans les logs
+Modification: 
+-Cron ajouter pour le week-end à 18h
+-Augmentation du nombre de caractère dans la description (rss steam)
+-Ajout de la date et l'heure dans les logs
+-Liste des link des article dans scrpaer (valo et r6) mmaintennat c'est un json
+-les articles steam seront en français si disponible
+
+1.0.1
+Fix: 
+-Erreur url des annonces dans les messages du flux steam
