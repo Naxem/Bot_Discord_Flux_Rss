@@ -1,7 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const url = 'https://playvalorant.com/fr-fr/news/';
+const url = 'https://www.ubisoft.com/fr-fr/game/rainbow-six/siege/news-updates';
 const path = './scraper/liste_rss_scraper.json';
 
 //Charger les articles déjà vus à partir du fichier
@@ -43,15 +43,13 @@ function addArticleToSeen(articleLink, game, seenArticles) {
 }
 
 //Fonction pour formater la date en JJ/MM/YYYY
-function formatDate(datetime) {
-    const date = new Date(datetime);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+function formatDate(day, month, year) {
+    const formattedDay = String(day).padStart(2, '0');  // Ajoute un 0 si nécessaire
+    const formattedMonth = String(month).padStart(2, '0');  // Ajoute un 0 si nécessaire
+    return `${formattedDay}/${formattedMonth}/${year}`;
 }
 
-async function rss_valorant() {
+async function rss_r6() {
     try {
         const seenArticles = await loadSeenArticles(); //Charger les articles vus
         const { data } = await axios.get(url);
@@ -59,34 +57,40 @@ async function rss_valorant() {
         const articles = [];
 
         //Sélectionner tous les éléments <a> avec la classe spécifiée
-        $('a.sc-7fa1932-0').each((index, element) => {
+        $('a.updatesFeed__item').each((index, element) => {
             const href = $(element).attr('href');
-            const title = $(element).attr('aria-label');
             const articleUrl = new URL(href, url).href;
 
             //Extraire les détails de l'article
-            const date = formatDate($(element).find('time').attr('datetime')) || 'Date non trouvée';
-            const type = $(element).find('[data-testid="card-category"]').text() || 'Type non trouvé';
-            const description = $(element).find('[data-testid="card-description"]').text() || 'Description non trouvée';
+            const title = $(element).find('h2').text() || 'Titre non trouvé'
+
+            //Récupérer la date en format JJ/MM/YYYY
+            const day = $(element).find('.date__day').text();
+            const month = $(element).find('.date__month').text();
+            const year = $(element).find('.date__year').text();
+            const date = formatDate(day, month, year);
+
+            const imageUrl = $(element).find('img').attr('src') || 'Image non trouvée';
+            const description = $(element).find('p').text() || 'Description non trouvée';
 
             //Vérifier si l'article a déjà été vu
-            if (!isArticleSeen(articleUrl, "valorant", seenArticles)) {
+            if (!isArticleSeen(articleUrl, "r6", seenArticles)) {
                 articles.push({
                     title,
                     articleUrl,
                     date,
-                    type,
+                    imageUrl,
                     description
                 });
                 //Sauvegarder les articles vus dans le fichier
-                addArticleToSeen(articleUrl, "valorant", seenArticles);
+                addArticleToSeen(articleUrl, "r6", seenArticles);
             }
         });
-        
+
         return articles;
     } catch (error) {
         console.error('Error fetching articles:', error);
     }
 }
 
-module.exports = { rss_valorant };
+module.exports = { rss_r6 };

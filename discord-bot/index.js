@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const { token, guildId, forumChannelId } = require('./token');
 const fs = require('fs');
 const { rss_valorant } = require('./scraper/valorant/scraper_valorant');
+const { rss_r6 } = require('./scraper/r6/scraper_r6');
 const { rss_steam } = require('./rss/steam/rss_steam');
 const path = './rss/steam/liste_lien_jeux.json';
 const cron = require('node-cron');
@@ -27,7 +28,7 @@ function date_actuelle() {
     return formattedDate;
 }
 
-async function send_message(threadName, formattedMessage) {   
+async function send_message(threadName, formattedMessage, embed) {   
     const guild = await client.guilds.fetch(guildId);
     if (!guild) {
         console.log(date_actuelle() + ': Serveur non trouvé');
@@ -67,8 +68,12 @@ async function send_message(threadName, formattedMessage) {
     }
 
     try {
-        // Envoie le message
-        await thread.send(formattedMessage);
+        //Envoie le message
+        if (formattedMessage) {
+            await thread.send(formattedMessage);
+        } else {
+            await thread.send({ embeds: [embed] });
+        }
         console.log(date_actuelle() + ": Message envoyé pour " + threadName);
     } catch (error) {
         console.error(date_actuelle() + ': Erreur lors de l\'envoi du message :', error);
@@ -92,10 +97,29 @@ client.once('ready', async () => {
                 ${article.description}\n
                 -------------------------------------------------------
                 `;
-                await send_message("Valorant", formattedMessage);
+                await send_message("Valorant", formattedMessage, false);
             }
         } else {
             console.log(date_actuelle() + `: Aucun nouvel article pour Valorant`);
+        }
+
+        console.log(date_actuelle() + ': Start rss Rainbow six siège');
+        const result_rss_r6 = await rss_r6();
+        if (result_rss_r6 && result_rss_r6.length > 0) {
+            for (let i = result_rss_r6.length - 1; i >= 0; i--) {
+                const article = result_rss_r6[i];
+                const embed = {
+                    title: article.title,
+                    url: article.articleUrl, //Lien de l'article si on clique sur le titre
+                    description: `*Publié le :* ${article.date}\n${article.description}`,
+                    image: {
+                        url: article.imageUrl,
+                    },
+                };
+                await send_message("Rainbow six siège", false, embed);
+            }
+        } else {
+            console.log(date_actuelle() + `: Aucun nouvel article pour Rainbow six siège`);
         }
 
         console.log(date_actuelle() + ': Start rss jeux Steam');
@@ -116,7 +140,7 @@ client.once('ready', async () => {
                         ${article.description}\n
                         -------------------------------------------------------
                         `;
-                        await send_message(game_name, formattedMessage);
+                        await send_message(game_name, formattedMessage, false);
                     }
                 } else {
                     console.log(date_actuelle() + `: Aucun nouvel article pour ${game_name}`);
