@@ -11,14 +11,21 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.1.0
+Version actuel: 1.1.1
 
 Patch notes:
+1.1.1
+Modification:
+-Changement des messages pour Valorant, Steam
+
+Ajout:
+-Rss steam Call of duty (All)
+
 1.1.0
-Ajout: 
+Ajout:
 -Flux rss pour le jeu Rainbow six siège (r6)
 
-Modification: 
+Modification:
 -Cron ajouter pour le week-end à 18h
 -Augmentation du nombre de caractère dans la description (rss steam)
 -Ajout de la date et l'heure dans les logs
@@ -26,5 +33,5 @@ Modification:
 -les articles steam seront en français si disponible
 
 1.0.1
-Fix: 
+Fix:
 -Erreur url des annonces dans les messages du flux steam
