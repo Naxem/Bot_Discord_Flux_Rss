@@ -89,15 +89,12 @@ client.once('ready', async () => {
         if (result_rss_valorant && result_rss_valorant.length > 0) {
             for (let i = result_rss_valorant.length - 1; i >= 0; i--) {
                 const article = result_rss_valorant[i];
-                const formattedMessage = `
-                **${article.title}**
-                [Lire l'article ici](<${article.articleUrl}>)
-                *Publié le :* ${article.date}
-                # ${article.type} #
-                ${article.description}\n
-                -------------------------------------------------------
-                `;
-                await send_message("Valorant", formattedMessage, false);
+                const embed = {
+                    title: article.title,
+                    url: article.articleUrl, //Lien de l'article si on clique sur le titre
+                    description: `*Publié le :* ${article.date}\n${article.description}`,
+                };
+                await send_message("Valorant", false, embed);
             }
         } else {
             console.log(date_actuelle() + `: Aucun nouvel article pour Valorant`);
@@ -110,7 +107,7 @@ client.once('ready', async () => {
                 const article = result_rss_r6[i];
                 const embed = {
                     title: article.title,
-                    url: article.articleUrl, //Lien de l'article si on clique sur le titre
+                    url: article.articleUrl,
                     description: `*Publié le :* ${article.date}\n${article.description}`,
                     image: {
                         url: article.imageUrl,
@@ -133,14 +130,12 @@ client.once('ready', async () => {
                 if (result_rss_steam && result_rss_steam.length > 0) {
                     for (let i = result_rss_steam.length - 1; i >= 0; i--) {
                         const article = result_rss_steam[i];
-                        const formattedMessage = `
-                        **${article.title}**
-                        [Lire l'article ici](<${article.link}>)
-                        *Publié le :* ${article.date}
-                        ${article.description}\n
-                        -------------------------------------------------------
-                        `;
-                        await send_message(game_name, formattedMessage, false);
+                        const embed = {
+                            title: article.title,
+                            url: article.link,
+                            description: `*Publié le :* ${article.date}\n${article.description}`,
+                        };
+                        await send_message(game_name, false, embed);
                     }
                 } else {
                     console.log(date_actuelle() + `: Aucun nouvel article pour ${game_name}`);
