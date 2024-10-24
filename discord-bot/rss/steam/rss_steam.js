@@ -60,9 +60,9 @@ async function rss_steam(url, game) {
         'Accept-Language': 'fr'
       }
     });
+
     const parser = new XMLParser();
     const rssData = parser.parse(response.data);
-
     const items = rssData.rss.channel.item;
     const feedItems = [];
 
@@ -74,11 +74,10 @@ async function rss_steam(url, game) {
       description = description.replace(/<[^>]*>/g, ''); //Supprime les balises HTML
       description = description.replace(/<br\s*\/?>/gi, '\n'); //Remplace les <br> par des sauts de ligne
       description = description.replace(/\s+/g, ' ').trim(); //Supprime les espaces inutiles
-      // Tronque la description si elle dépasse 400 caractères
-      if (description.length > 150) {
-        description = description.substring(0, 400) + "..."; 
+      // Tronque la description si elle dépasse 200 caractères
+      if (description.length > 200) {
+        description = description.substring(0, 200) + "..."; 
       }
-
 
       const date = item.pubDate;
       const link = item.link;
