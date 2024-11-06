@@ -29,7 +29,12 @@
     "FAQ de la tour solaire",
     "Corrections de bugs 1023",
     "[Caisse de butin de luminis : probabilités de la Mascarade d'Halloween]",
-    "Mise à jour de la boutique : Nouveautés"
+    "Mise à jour de la boutique : Nouveautés",
+    "Correctifs 1025",
+    "Once Human Version 1.3 Bug Fixes: October 30",
+    "Correctifs 1030",
+    "Version 1.3 Bug Fixes：November 6",
+    "Version 1.3.1 Update Announcement"
   ],
   "PayDay 3": [
     "PAYDAY 3 - +50% Cash Weekend",
@@ -43,7 +48,9 @@
     "PAYDAY 3 - +50% Weapon XP Weekend",
     "PAYDAY 3: Roadmap",
     "PAYDAY 3: Blog Update - Stocked & Loaded Summary + Soundtrack Volume 2!",
-    "PAYDAY 3: Anniversary Update: Part 2 date & info + AMA is now open!"
+    "PAYDAY 3: Anniversary Update: Part 2 date & info + AMA is now open!",
+    "PAYDAY 3: Blog Update #34 - Upcoming UI Revamp",
+    "PAYDAY 3: Anniversary Part 2 | OUT NOW + Y1 Edition Sale"
   ],
   "Cities Skylines II": [
     "An update to the Release Schedule",
@@ -59,7 +66,11 @@
     "Region Packs Official Announcement - Cities Around The World",
     "Patch Notes 1.1.10f1",
     "Patch Notes 1.1.11f1",
-    "Dev Diary: Region Packs from a Content Creator Manager’s Perspective"
+    "Dev Diary: Region Packs from a Content Creator Manager’s Perspective",
+    "French Pack - Official Release Trailer",
+    "French Region Pack - Creator Dev Diary",
+    "Important update for all Cities: Skylines II Players:",
+    "Additional information regarding malware suspicion on the Mod “Traffic”."
   ],
   "Rocket league": [
     "Patch Notes v2.44",
@@ -100,7 +111,9 @@
     "Annonce du playtest de Steam Néo Fest",
     "Annonce | Fermeture du serveur Steam Néo Fest",
     "G.T.I. Security | Avis de sanctions pour les violations (14/10~21/10)",
-    "Annonce | Bêta ouverte mondiale sur PC le 5 décembre"
+    "Annonce | Bêta ouverte mondiale sur PC le 5 décembre",
+    "Ask Shadow Anything Vol. 5",
+    "Announcement I 33 Days to Delta"
   ],
   "Helldivers 2": [
     "Patch 1.001.103",
@@ -120,7 +133,9 @@
     "PATCH 01.001.007",
     "Les obligations de guerre Agents chimiques arrivent dans Helldivers 2",
     "Helldivers 2 is launching Truth Enforcers Warbond on October 31st!",
-    "Les obligations de guerre Officiers de la vérité débarquent dans Helldivers 2"
+    "Les obligations de guerre Officiers de la vérité débarquent dans Helldivers 2",
+    "CORRECTIF 01.001.201",
+    "Patch 1.001.202"
   ],
   "Gray Zone Warfare": [
     "Hotfix 0.1.2.3 Now Live - Changelog",
@@ -135,7 +150,9 @@
     "Gray Zone Warfare: Night Ops World Premiere Reveal Sept 6th",
     "Catch Devlog 6 &amp; Latest News on GZW – Live on Twitch Tomorrow",
     "Catch Devlog 6 & Latest News on GZW – Live on Twitch Tomorrow",
-    "Devlog #6: Gear Fear, Exploration, and Quality of Life Improvements - Part 2"
+    "Devlog #6: Gear Fear, Exploration, and Quality of Life Improvements - Part 2",
+    "Join Night Ops Testing &amp; Watch the GZW: Devlog #6 Livestream on VOD",
+    "Join Night Ops Testing & Watch the GZW: Devlog #6 Livestream on VOD"
   ],
   "Fall guys": [
     "Fall Forever Update",
@@ -167,7 +184,8 @@
     "Vol. 76 - Ready or Not Development Briefing",
     "Home Invasion Patch 1 Changelog",
     "Community Content Exhibit Vol. 11",
-    "Player Sentiment Survey"
+    "Player Sentiment Survey",
+    "Vol. 79 - Ready or Not Development Briefing"
   ],
   "Lethal Compagny": [
     "The Bag Patch - Version 64",
@@ -209,7 +227,14 @@
     "Notice of Adjustment to Account Reset Grace Period",
     "(Updated #7) October Known Issues",
     "Les résultats concernant les mesures répressives contre les joueurs malveillants",
-    "La configuration du compte principal est désormais disponible"
+    "La configuration du compte principal est désormais disponible",
+    "Le service de modification du nom du compte est désormais disponible",
+    "(In-game) \"Descendant's Daily Tasks\" Event Notice",
+    "The First Descendant Update 1.1.6",
+    "Community Q&amp;A",
+    "Community Q&A",
+    "Notice of Time Change Due to PST Application",
+    "November Known Issues"
   ],
   "Age of Empire IV": [
     "Red Bull Wololo: El Reinado Starting October 3rd!",
@@ -225,7 +250,8 @@
     "Save on the Age of Empires IV Ultimate Bundle",
     "Server Maintenance - Wednesday, October 16",
     "Age of Empires IV – Update Preview 12.0.1974",
-    "Age of Empires IV – Update Preview 12.0.1974 LIVE!"
+    "Age of Empires IV – Update Preview 12.0.1974 LIVE!",
+    "Age of Empires IV – Patch 12.0.2246"
   ],
   "Sea of Thieves": [
     "Announcing the Golden Scallywag Awards",
@@ -244,7 +270,8 @@
     "Sea of Thieves Round-Up: September 2024",
     "Sea of Thieves Release Notes - 3.2.0",
     "Stealth Leads to Wealth in Sea of Thieves Season 14",
-    "Guilds Anniversary Boost"
+    "Guilds Anniversary Boost",
+    "Sea of Thieves Release Notes – Hotfix 3.2.0.1"
   ],
   "Call of duty": [
     "Call of Duty: Black Ops 6 accessibility updates and new features",
@@ -256,6 +283,8 @@
     "Gear up: Equipment, perks, and Scorestreaks confirmed",
     "RICOCHET Anti-Cheat™ Progress Report: Black Ops 6 launch",
     "Zombies prep: equipment, power-ups, augments, and more, part 1",
-    "Zombies prep: equipment, power-ups, augments, and more, part 2"
+    "Zombies prep: equipment, power-ups, augments, and more, part 2",
+    "Call of Duty: Black Ops 6 - Black Ops 6 is HERE",
+    "New updates bring Infected and Classic Nuketown to Call of Duty: Black Ops 6"
   ]
 }

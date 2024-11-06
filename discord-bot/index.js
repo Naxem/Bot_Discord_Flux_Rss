@@ -140,25 +140,29 @@ client.once('ready', async () => {
                 } else {
                     console.log(date_actuelle() + `: Aucun nouvel article pour ${game_name}`);
                 }
-            } catch (error) {
+            } catch(error) {
                 console.error(date_actuelle() + `: Erreur lors de la récupération du flux RSS pour ${game_name}:`, error);
             }
         }
     }
 
-    await executeTask();
+    try {
+        await executeTask();
 
-    // Lundi à vendredi à 10h, 14h et 18h
-    cron.schedule('0 10,14,18 * * 1-5', () => {
-        console.log('Cron exécutée à 10h, 14h ou 18h en semaine !');
-        executeTask();
-    });
-
-    // Week-end à 18h
-    cron.schedule('0 18 * * 6,0', () => {
-        console.log('Cron exécutée à 18h le week-end !');
-        executeTask();
-    });
+        //Lundi à vendredi à 10h, 14h et 18h
+        cron.schedule('0 10,14,18 * * 1-5', () => {
+            console.log('Cron exécutée à 10h, 14h ou 18h en semaine !');
+            executeTask();
+        });
+    
+        //Week-end à 18h
+        cron.schedule('0 18 * * 6,0', () => {
+            console.log('Cron exécutée à 18h le week-end !');
+            executeTask();
+        });
+    } catch(error) {
+        console.error(date_actuelle() + error);
+    }
 });
 
 client.login(token);
