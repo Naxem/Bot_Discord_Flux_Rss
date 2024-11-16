@@ -159,4 +159,14 @@ client.once('ready', async () => {
     }
 });
 
+client.on('error', (error) => {
+    console.error('Erreur Discord.js:', error);
+});
+
+client.on('disconnect', (event) => {
+    console.log('Bot déconnecté :', event);
+    // Optionnel : tente de redémarrer le bot ou d'attendre une reconnexion
+});
+
+
 client.login(token);
