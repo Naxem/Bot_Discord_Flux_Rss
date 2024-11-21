@@ -146,17 +146,13 @@ client.once('ready', async () => {
         }
     }
 
-    try {
-        await executeTask();
+    executeTask();
 
-        //Lundi à Dimanche à 10h, 14h et 18h
-        cron.schedule('0 10,14,18 * * 0-6', () => {
-            console.log('Cron exécutée à 10h, 14h ou 18h tous les jours !');
-            executeTask();
-        });
-    } catch(error) {
-        console.error(date_actuelle() + error);
-    }
+    //Tous les jours à 10h, 14h et 18h
+    cron.schedule('0 10,14,18 * * 0-6', () => {
+        console.log('Cron exécutée à 10h, 14h ou 18h tous les jours !');
+        executeTask();
+    });
 });
 
 client.on('error', (error) => {
@@ -165,8 +161,7 @@ client.on('error', (error) => {
 
 client.on('disconnect', (event) => {
     console.log('Bot déconnecté :', event);
-    // Optionnel : tente de redémarrer le bot ou d'attendre une reconnexion
+    // A faire : tente de redémarrer le bot ou d'attendre une reconnexion
 });
-
 
 client.login(token);
