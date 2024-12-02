@@ -146,23 +146,22 @@ client.once('ready', async () => {
         }
     }
 
-    try {
-        await executeTask();
+    executeTask();
 
-        //Lundi à vendredi à 10h, 14h et 18h
-        cron.schedule('0 10,14,18 * * 1-5', () => {
-            console.log('Cron exécutée à 10h, 14h ou 18h en semaine !');
-            executeTask();
-        });
-    
-        //Week-end à 18h
-        cron.schedule('0 18 * * 6,0', () => {
-            console.log('Cron exécutée à 18h le week-end !');
-            executeTask();
-        });
-    } catch(error) {
-        console.error(date_actuelle() + error);
-    }
+    //Tous les jours à 10h, 14h et 18h
+    cron.schedule('0 10,14,18 * * 0-6', () => {
+        console.log('Cron exécutée à 10h, 14h ou 18h tous les jours !');
+        executeTask();
+    });
+});
+
+client.on('error', (error) => {
+    console.error('Erreur Discord.js:', error);
+});
+
+client.on('disconnect', (event) => {
+    console.log('Bot déconnecté :', event);
+    // A faire : tente de redémarrer le bot ou d'attendre une reconnexion
 });
 
 client.login(token);

@@ -11,9 +11,16 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.1.1
+Version actuel: 1.1.2
 
 Patch notes:
+1.1.2
+Modification:
+-Changement du cron
+
+Ajout:
+-Ajout d'un try catch pour récup les erreur
+
 1.1.1
 Modification:
 -Changement des messages pour Valorant, Steam
