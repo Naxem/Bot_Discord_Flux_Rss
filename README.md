@@ -11,34 +11,38 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.1.2
+Version actuel: 1.1.3
 
 Patch notes:
-1.1.2
-Modification:
--Changement du cron
+1.1.3
+Ajouts:
+- RSS jeux Overwatch
 
-Ajout:
--Ajout d'un try catch pour récup les erreur
+1.1.2
+Modifications:
+- Changement du cron
+
+Ajouts:
+- Ajout d'un try catch pour récup les erreurs
 
 1.1.1
-Modification:
--Changement des messages pour Valorant, Steam
+Modifications:
+- Changement des messages pour Valorant et Steam
 
-Ajout:
--Rss steam Call of duty (All)
+Ajouts:
+- RSS Steam Call of duty (Games dans le CodQG)
 
 1.1.0
-Ajout:
--Flux rss pour le jeu Rainbow six siège (r6)
+Ajouts:
+- Flux RSS pour le jeu Rainbow six siège (R6)
 
-Modification:
--Cron ajouter pour le week-end à 18h
--Augmentation du nombre de caractère dans la description (rss steam)
--Ajout de la date et l'heure dans les logs
--Liste des link des article dans scrpaer (valo et r6) mmaintennat c'est un json
--les articles steam seront en français si disponible
+Modifications:
+- Cron ajouter pour le week-end à 18h
+- Augmentation du nombre de caractère dans la description (RSS Steam)
+- Ajout de la date et l'heure dans les logs
+- Liste des link des article dans scrpaer (Valo et R6) mmaintenant c'est un json
+- Les articles Steam seront en français si disponible
 
 1.0.1
 Fix:
--Erreur url des annonces dans les messages du flux steam
+- Erreur URL des annonces dans les messages du flux Steam
