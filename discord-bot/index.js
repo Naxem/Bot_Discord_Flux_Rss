@@ -162,6 +162,7 @@ client.on('error', (error) => {
 client.on('disconnect', (event) => {
     console.log('Bot déconnecté :', event);
     // A faire : tente de redémarrer le bot ou d'attendre une reconnexion
+    
 });
 
 client.login(token);
