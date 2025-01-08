@@ -70,6 +70,10 @@ async function rss_steam(url, game) {
       const title = item.title;
       let description = item.description;
 
+      if (description === undefined) {
+        description = "Pas de description disponible.";
+      }
+
       //Nettoyage de la description
       description = description.replace(/<[^>]*>/g, ''); //Supprime les balises HTML
       description = description.replace(/<br\s*\/?>/gi, '\n'); //Remplace les <br> par des sauts de ligne

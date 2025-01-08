@@ -122,11 +122,11 @@ client.once('ready', async () => {
         console.log(date_actuelle() + ': Start rss jeux Steam');
         const list_links_game = fs.readFileSync(path, 'utf-8');
         const list_link = JSON.parse(list_links_game);
-
+        
         for (const [game_name, rss_url] of Object.entries(list_link)) {
             try {
                 const result_rss_steam = await rss_steam(rss_url, game_name);
-
+        
                 if (result_rss_steam && result_rss_steam.length > 0) {
                     for (let i = result_rss_steam.length - 1; i >= 0; i--) {
                         const article = result_rss_steam[i];
@@ -162,7 +162,6 @@ client.on('error', (error) => {
 client.on('disconnect', (event) => {
     console.log('Bot déconnecté :', event);
     // A faire : tente de redémarrer le bot ou d'attendre une reconnexion
-    
 });
 
 client.login(token);

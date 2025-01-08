@@ -11,9 +11,14 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.1.3
+Version actuel: 1.1.4
 
 Patch notes:
+1.1.4
+Fix:
+- Fix erreur lors de la lecture des flux rss steam quand la description d'un article n'est pas disponible
+- Fix l'envoi des nouveaux messages pour valorant 
+
 1.1.3
 Ajouts:
 - RSS jeux Overwatch
