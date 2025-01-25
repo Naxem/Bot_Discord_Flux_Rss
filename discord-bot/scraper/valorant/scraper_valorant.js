@@ -59,10 +59,15 @@ async function rss_valorant() {
         const articles = [];
 
         //Sélectionner tous les éléments <a> avec la classe spécifiée
-        $('a.sc-7fa1932-0').each((index, element) => {
+        $('a.sc-ccb06989-0').each((index, element) => {
             const href = $(element).attr('href');
             const title = $(element).attr('aria-label');
             const articleUrl = new URL(href, url).href;
+
+            if (!title || !articleUrl) {
+                console.log('Titre ou URL non trouvée pour Valorant');
+                return;
+            }
 
             //Extraire les détails de l'article
             const date = formatDate($(element).find('time').attr('datetime')) || 'Date non trouvée';
