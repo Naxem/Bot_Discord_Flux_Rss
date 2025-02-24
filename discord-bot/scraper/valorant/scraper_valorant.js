@@ -59,7 +59,10 @@ async function rss_valorant() {
         const articles = [];
 
         //Sélectionner tous les éléments <a> avec la classe spécifiée
-        $('a.dUoLHA').each((index, element) => {
+        $('a.action').each((index, element) => {
+            const role = $(element).attr('role');
+            if (role !== 'button') return;
+            
             const href = $(element).attr('href');
             const title = $(element).attr('aria-label');
             const articleUrl = new URL(href, url).href;
