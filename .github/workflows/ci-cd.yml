@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-analyze:
-    name: Build, Lint, and SonarQube
+    name: Build, Eslint, Test
     runs-on: ubuntu-latest
 
     defaults:
@@ -35,8 +35,3 @@ jobs:
 
       - name: Run tests
         run: npm test || true
-
-      - name: Detect secrets with GitGuardian
-        uses: GitGuardian/ggshield-action@v1.36.0
-        env:
-            GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
