@@ -11,9 +11,17 @@ Pour lancer le bot sur ce serveur il faut:
 Pour voir les logs cat output.log
 Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
-Version actuel: 1.1.5
+Version actuel: 1.1.6
 
 Patch notes:
+1.1.6
+Ajouts:
+- CI/CD
+
+Fix:
+- Eslint auto fix
+- Update package axios, discord and fast-xml-parser
+
 1.1.5
 Fix:
 - Fix envoi message Valorant

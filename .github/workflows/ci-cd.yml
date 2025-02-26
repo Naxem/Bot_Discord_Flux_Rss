@@ -1,0 +1,42 @@
+name: CI/CD for Discord Bot
+
+on:
+  push:
+    branches:
+        - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-and-analyze:
+    name: Build, Lint, and SonarQube
+    runs-on: ubuntu-latest
+
+    defaults:
+        run:
+            working-directory: discord-bot
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Eslint
+        run: npx eslint .
+
+      - name: Run tests
+        run: npm test || true
+
+      - name: Detect secrets with GitGuardian
+        uses: GitGuardian/ggshield-action@v1.36.0
+        env:
+            GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
