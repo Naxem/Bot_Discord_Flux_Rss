@@ -5,7 +5,7 @@ Pour lancer le bot en local: node index.js
 
 # Start sur serveur O2switch #
 Pour lancer le bot sur ce serveur il faut:
-- Aller dans l'environnement virtuelle de l'applicaiton node JS (ex: source /home/tema4598/nodevenv/discord/20/bin/activate && cd /home/tema4598/discord)
+- Aller dans l'environnement virtuelle de l'applicaiton node JS (ex: source /home/tema4598/nodevenv/rss-discord-bot/22/bin/activate && cd /home/tema4598/rss-discord-bot)
 - ensuite le lancer en arrière plan: setsid node index.js > output.log 2>&1 &
 
 Pour voir les logs cat output.log
