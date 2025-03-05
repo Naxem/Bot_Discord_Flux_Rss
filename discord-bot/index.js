@@ -91,7 +91,7 @@ client.once("ready", async () => {
         const article = result_rss_valorant[i];
         const embed = {
           title: article.title,
-          url: article.articleUrl, //Lien de l'article si on clique sur le titre
+          url: article.articleUrl,
           description: `*Publié le :* ${article.date}\n${article.description}`,
         };
         await send_message("Valorant", false, embed);

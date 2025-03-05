@@ -1,16 +1,33 @@
-## Bot_Discord_Flux_Rss ##
+# Bot_Discord_Flux_Rss #
 
-# Start local #
+## Start local ##
 Pour lancer le bot en local: node index.js
 
-# Start sur serveur O2switch #
-Pour lancer le bot sur ce serveur il faut:
-- Aller dans l'environnement virtuelle de l'applicaiton node JS (ex: source /home/tema4598/nodevenv/rss-discord-bot/22/bin/activate && cd /home/tema4598/rss-discord-bot)
-- ensuite le lancer en arrière plan: setsid node index.js > output.log 2>&1 &
+## Start sur serveur O2switch ##
+Pour lancer le bot sur un serveur O2switch:
+- Aller dans l'environnement virtuelle de l'applicaiton node JS ex:
+```bash
+source /home/tema0000/nodevenv/discord-bot/22/bin/activate && cd /home/tema0000/discord-bot
+```
+- Ensuite le lancer en arrière plan ex:
+```bash
+setsid node index.js > output.log 2>&1 &
+```
+```bash ```
 
-Pour voir les logs cat output.log
-Pour kill de programe: 'ps aux | grep node' pour localiser le programe et 'Kill <ID>'
 
+Pour voir les logs:
+```bash 
+cat output.log 
+``` 
+
+Pour localiser et kill le programe:
+```bash 
+ps aux | grep node
+Kill <ID>
+``` 
+
+## Path notes ##
 Version actuel: 1.1.6
 
 Patch notes:
@@ -20,7 +37,7 @@ Ajouts:
 
 Fix:
 - Eslint auto fix
-- Update package axios, discord and fast-xml-parser
+- Update package
 
 1.1.5
 Fix:
@@ -57,7 +74,7 @@ Modifications:
 - Cron ajouter pour le week-end à 18h
 - Augmentation du nombre de caractère dans la description (RSS Steam)
 - Ajout de la date et l'heure dans les logs
-- Liste des link des article dans scrpaer (Valo et R6) mmaintenant c'est un json
+- Liste des link des article pour (Valo et R6) format JSON
 - Les articles Steam seront en français si disponible
 
 1.0.1
