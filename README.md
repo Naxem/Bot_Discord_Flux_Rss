@@ -10,8 +10,6 @@ source /home/tema0000/nodevenv/discord-bot/22/bin/activate && cd /home/tema0000/
 ```bash
 setsid node index.js > output.log 2>&1 &
 ```
-```bash ```
-
 
 Pour voir les logs:
 ```bash 
