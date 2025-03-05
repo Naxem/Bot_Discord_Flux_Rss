@@ -1,8 +1,5 @@
 # Bot_Discord_Flux_Rss #
 
-## Start local ##
-Pour lancer le bot en local: node index.js
-
 ## Start sur serveur O2switch ##
 Pour lancer le bot sur un serveur O2switch:
 - Aller dans l'environnement virtuelle de l'applicaiton node JS ex:
