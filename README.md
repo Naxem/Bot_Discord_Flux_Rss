@@ -26,6 +26,10 @@ Kill <ID>
 Version actuel: 1.1.6
 
 Patch notes:
+1.2.0
+Modification:
+- Suppresion des cron pour éxecuter le bot avec O2switch
+
 1.1.6
 Ajouts:
 - CI/CD
