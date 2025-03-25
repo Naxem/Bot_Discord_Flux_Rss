@@ -29,6 +29,7 @@ Patch notes:
 1.2.1
 Ajouts:
 - Add Assassin's Creed Shadows feed
+- try catch pour couper le bot a la fin
 
 1.2.0
 Modification:
