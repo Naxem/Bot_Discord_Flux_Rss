@@ -146,13 +146,12 @@ client.once("ready", async () => {
     }
   };
 
-  executeTask();
+  await executeTask();
+  client.destroy();
 });
 
 try {
-  await client.login(token);
+  client.login(token);
 } catch (error) {
   console.error(date_actuelle() + ": Erreur lors du lancement du bot :", error);
-} finally {
-  client.destroy();
 }
