@@ -63,8 +63,16 @@ async function rss_steam(url, game) {
 
     const parser = new XMLParser();
     const rssData = parser.parse(response.data);
-    const items = rssData.rss.channel.item;
+    const items = rssData.rss.channel.item || [];
     const feedItems = [];
+
+    // Liste des titres ACTUELS du flux RSS
+    const currentTitles = items.map(item => item.title.trim());
+
+    if (seenArticles[game]) {
+      seenArticles[game] = seenArticles[game].filter(title => currentTitles.includes(title.trim()));
+      saveSeenArticles(seenArticles);
+    }
 
     items.forEach(item => {
       const title = item.title;
@@ -78,6 +86,7 @@ async function rss_steam(url, game) {
       description = description.replace(/<[^>]*>/g, ""); //Supprime les balises HTML
       description = description.replace(/<br\s*\/?>/gi, "\n"); //Remplace les <br> par des sauts de ligne
       description = description.replace(/\s+/g, " ").trim(); //Supprime les espaces inutiles
+      
       // Tronque la description si elle dépasse 200 caractères
       if (description.length > 200) {
         description = description.substring(0, 200) + "..."; 

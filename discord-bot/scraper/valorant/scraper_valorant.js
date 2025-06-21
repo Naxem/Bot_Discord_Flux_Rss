@@ -22,14 +22,9 @@ function saveSeenArticles(seenArticles) {
 
 //Fonction pour vérifier si un article est déjà vu
 function isArticleSeen(articleLink, game, seenArticles) {
-  if (!seenArticles[game]) {
-    return false;
-  }
-  
-  const cleanArticleLink = articleLink.trim();
-  
+  if (!seenArticles[game]) return false;
   //Vérifier si un article avec le même titre a déjà été vu
-  return seenArticles[game].some(seenArticle => seenArticle.trim() === cleanArticleLink);
+  return seenArticles[game].some(seenArticle => seenArticle.trim() === articleLink.trim());
 }
 
 //Fonction pour ajouter un article au jeu correspondant
@@ -57,6 +52,7 @@ async function rss_valorant() {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     const articles = [];
+    const currentLinks = [];
 
     //Sélectionner tous les éléments <a> avec la classe spécifiée
     $("a.action").each((index, element) => {
@@ -77,6 +73,9 @@ async function rss_valorant() {
       const type = $(element).find("[data-testid=\"card-category\"]").text() || "Type non trouvé";
       const description = $(element).find("[data-testid=\"card-description\"]").text() || "Description non trouvée";
 
+      // Ajouter le lien à la liste des liens encore présents
+      currentLinks.push(articleUrl);
+
       //Vérifier si l'article a déjà été vu
       if (!isArticleSeen(articleUrl, "valorant", seenArticles)) {
         articles.push({
@@ -90,10 +89,16 @@ async function rss_valorant() {
         addArticleToSeen(articleUrl, "valorant", seenArticles);
       }
     });
+
+    //Nettoyage : supprimer les anciens liens non présents dans le flux
+    if (seenArticles["valorant"]) {
+      seenArticles["valorant"] = seenArticles["valorant"].filter(link => currentLinks.includes(link.trim()));
+      saveSeenArticles(seenArticles);
+    }
         
     return articles;
   } catch (error) {
-    console.error("Error fetching articles:", error);
+    console.error("Erreur lors de la récupération des articles Valorant :", error);
   }
 }
 
