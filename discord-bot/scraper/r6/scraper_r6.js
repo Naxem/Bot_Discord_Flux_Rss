@@ -22,14 +22,9 @@ function saveSeenArticles(seenArticles) {
 
 //Fonction pour vérifier si un article est déjà vu
 function isArticleSeen(articleLink, game, seenArticles) {
-  if (!seenArticles[game]) {
-    return false;
-  }
-  
-  const cleanArticleLink = articleLink.trim();
-  
+  if (!seenArticles[game]) return false;
   //Vérifier si un article avec le même titre a déjà été vu
-  return seenArticles[game].some(seenArticle => seenArticle.trim() === cleanArticleLink);
+  return seenArticles[game].some(seenArticle => seenArticle.trim() === articleLink.trim());
 }
 
 //Fonction pour ajouter un article au jeu correspondant
@@ -55,6 +50,7 @@ async function rss_r6() {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     const articles = [];
+    const currentLinks = [];
 
     //Sélectionner tous les éléments <a> avec la classe spécifiée
     $("a.updatesFeed__item").each((index, element) => {
@@ -73,6 +69,9 @@ async function rss_r6() {
       const imageUrl = $(element).find("img").attr("src") || "Image non trouvée";
       const description = $(element).find("p").text() || "Description non trouvée";
 
+      // Ajouter le lien à la liste des liens encore présents
+      currentLinks.push(articleUrl);
+      
       //Vérifier si l'article a déjà été vu
       if (!isArticleSeen(articleUrl, "r6", seenArticles)) {
         articles.push({
@@ -87,9 +86,15 @@ async function rss_r6() {
       }
     });
 
+    //Nettoyage : supprimer les anciens liens non présents dans le flux
+    if (seenArticles["r6"]) {
+      seenArticles["r6"] = seenArticles["r6"].filter(link => currentLinks.includes(link.trim()));
+      saveSeenArticles(seenArticles);
+    }
+
     return articles;
   } catch (error) {
-    console.error("Error fetching articles:", error);
+    console.error("Erreur lors de la récupération des articles R6 :", error);
   }
 }
 

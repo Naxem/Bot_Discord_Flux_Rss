@@ -23,9 +23,26 @@ Kill <ID>
 ``` 
 
 ## Path notes ##
-Version actuel: 1.1.6
+Version actuel: 1.3.0
 
 Patch notes:
+1.3.0
+Ajout:
+- Clean des lien et titre dans les fichier liste_rss_steam.json et liste_rss_steam.json
+- Ajoute des jeu Dying Light: The Beast, Rematch, Jump Ship
+
+Modification:
+- Message d'erreur dans la fonction rss_valo et rss_r6
+
+1.2.1
+Ajouts:
+- Add Assassin's Creed Shadows feed
+- try catch pour couper le bot a la fin
+
+1.2.0
+Modification:
+- Suppresion des cron pour éxecuter le bot avec O2switch
+
 1.1.6
 Ajouts:
 - CI/CD
