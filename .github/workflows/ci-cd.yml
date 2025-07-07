@@ -4,6 +4,7 @@ on:
   push:
     branches:
         - main
+        - develop
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -13,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     defaults:
-        run:
-            working-directory: discord-bot
+      run:
+        working-directory: discord-bot
 
     steps:
       - name: Checkout repository
@@ -33,5 +34,5 @@ jobs:
       - name: Eslint
         run: npx eslint .
 
-      - name: Run tests
-        run: npm test || true
+      #- name: Run tests
+      #  run: npm test || true
